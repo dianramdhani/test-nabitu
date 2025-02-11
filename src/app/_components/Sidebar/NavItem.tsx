@@ -1,5 +1,9 @@
+'use client'
+
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useMemo } from 'react'
 
 interface NavItemProps {
   name: string
@@ -7,23 +11,22 @@ interface NavItemProps {
   icon: JSX.Element
 }
 export default function NavItem({ name, path, icon }: NavItemProps) {
+  const pathname = usePathname()
+  const selected = useMemo(() => path === pathname, [path, pathname])
+
   return (
     <ListItemButton
       component={Link}
+      selected={selected}
       href={path}
       sx={{
         pl: 4,
         py: 2,
-        '&:hover': {
-          bgcolor: 'primary.lighter',
-        },
+        color: 'grey.500',
         '&.Mui-selected': {
-          bgcolor: 'primary.lighter',
-          borderRight: '2px solid red',
-          color: '#fff',
+          color: 'common.white',
           '&:hover': {
-            color: '#fff',
-            bgcolor: 'primary.lighter',
+            color: 'common.white',
           },
         },
       }}
@@ -31,7 +34,11 @@ export default function NavItem({ name, path, icon }: NavItemProps) {
       <ListItemIcon
         sx={{
           minWidth: 32,
-          svg: { width: 18, height: 18, color: '#fff' },
+          svg: {
+            width: 18,
+            height: 18,
+            color: selected ? 'common.white' : 'grey.500',
+          },
         }}
       >
         {icon}

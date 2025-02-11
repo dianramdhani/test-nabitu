@@ -15,8 +15,8 @@ export default function Sidebar() {
           width: 280,
           py: 4,
           boxSizing: 'border-box',
-          color: '#fff',
-          backgroundColor: '#1C2434',
+          color: 'common.white',
+          bgcolor: 'grey.900',
         },
       }}
     >
@@ -31,7 +31,14 @@ export default function Sidebar() {
       </Box>
       <List
         subheader={
-          <Typography sx={{ pl: 4, fontWeight: 'bold', color: '#9D9D9D' }}>
+          <Typography
+            sx={{
+              pl: 4,
+              fontWeight: 'bold',
+              fontSize: '0.875rem',
+              color: 'grey.500',
+            }}
+          >
             MENU
           </Typography>
         }
