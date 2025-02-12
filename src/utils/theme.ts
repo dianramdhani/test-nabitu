@@ -82,13 +82,19 @@ const theme = createTheme({
     },
     MuiTextField: {
       styleOverrides: {
-        root: ({ theme }) => ({ backgroundColor: theme.palette.common.white }),
+        root: ({ theme }) => ({
+          minWidth: 250,
+          backgroundColor: theme.palette.common.white,
+        }),
       },
       defaultProps: { size: 'small' },
     },
     MuiSelect: {
       styleOverrides: {
-        root: ({ theme }) => ({ backgroundColor: theme.palette.common.white }),
+        root: ({ theme }) => ({
+          minWidth: 250,
+          backgroundColor: theme.palette.common.white,
+        }),
       },
       defaultProps: { size: 'small' },
     },
