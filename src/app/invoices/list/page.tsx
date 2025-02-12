@@ -58,10 +58,7 @@ export default function InvoiceListPage() {
       try {
         const res = await fetch(url)
         if (!res.ok) throw new Error('Failed to fetch')
-
-        const data = await res.json()
-        console.log(data)
-        setInvoices(data)
+        setInvoices(await res.json())
       } catch (error) {
         console.error(error)
       } finally {

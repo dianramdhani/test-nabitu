@@ -29,7 +29,7 @@ export default function AddInvoicePage() {
     resolver: zodResolver(zInvoice),
     defaultValues: {
       name: '',
-      invoiceNumber: `INV-${Math.floor(Math.random() * 100000)}`,
+      invoiceNumber: `INV${Math.floor(Math.random() * 1000000)}`,
       dueDate: undefined,
       amount: undefined,
       status: undefined,

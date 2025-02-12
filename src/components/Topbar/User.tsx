@@ -15,7 +15,7 @@ export default function User() {
     >
       <Box
         sx={{
-          display: 'flex',
+          display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
           alignItems: 'flex-end',
         }}
