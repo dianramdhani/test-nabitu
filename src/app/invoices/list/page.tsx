@@ -22,14 +22,14 @@ import { useDebounce } from '@uidotdev/usehooks'
 import { useEffect } from 'react'
 import SkeletonRows from './_components/SkeletonRows'
 import InvoiceMenu from './_components/InvoiceMenu'
-import { useInvoices, withInvoiceProvider } from './_context/InvoiceContext'
+import { useInvoices } from './_context/InvoiceContext'
 
 export type QueryType = {
   search: string
   status: string
 }
 
-function InvoiceListPage() {
+export default function InvoiceListPage() {
   const methods = useForm<QueryType>({
     defaultValues: {
       search: '',
@@ -119,5 +119,3 @@ function InvoiceListPage() {
     </>
   )
 }
-
-export default withInvoiceProvider(InvoiceListPage)
