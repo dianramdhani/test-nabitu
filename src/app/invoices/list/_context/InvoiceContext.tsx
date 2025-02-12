@@ -19,57 +19,53 @@ export function useInvoices() {
   return context
 }
 
-export function withInvoiceProvider<T extends Record<string, unknown>>(
-  Component: React.ComponentType<T>
-) {
-  return function WrappedComponent(props: T) {
-    const [invoices, setInvoices] = useState<InvoiceType[]>([])
-    const [isLoading, setIsLoading] = useState(true)
+export function InvoiceProvider({ children }: { children: React.ReactNode }) {
+  const [invoices, setInvoices] = useState<InvoiceType[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-    const fetchInvoices = useCallback(async (query: QueryType) => {
-      setIsLoading(true)
-      const { search, status } = query
-      const params = new URLSearchParams()
+  const fetchInvoices = useCallback(async (query: QueryType) => {
+    setIsLoading(true)
+    const { search, status } = query
+    const params = new URLSearchParams()
 
-      if (search) params.append('search', search)
-      if (status) params.append('status', status)
+    if (search) params.append('search', search)
+    if (status) params.append('status', status)
 
-      const url = `/api/invoices${
-        params.toString() ? `?${params.toString()}` : ''
-      }`
+    const url = `/api/invoices${
+      params.toString() ? `?${params.toString()}` : ''
+    }`
 
-      try {
-        const res = await fetch(url)
-        if (!res.ok) throw new Error('Failed to fetch')
-        setInvoices(await res.json())
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }, [])
+    try {
+      const res = await fetch(url)
+      if (!res.ok) throw new Error('Failed to fetch')
+      setInvoices(await res.json())
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
-    const deleteInvoice = useCallback(async (invoiceNumber: string) => {
-      try {
-        const res = await fetch(`/api/invoices/${invoiceNumber}`, {
-          method: 'DELETE',
-        })
-        if (!res.ok) throw new Error('Failed to delete')
+  const deleteInvoice = useCallback(async (invoiceNumber: string) => {
+    try {
+      const res = await fetch(`/api/invoices/${invoiceNumber}`, {
+        method: 'DELETE',
+      })
+      if (!res.ok) throw new Error('Failed to delete')
 
-        setInvoices((prev) =>
-          prev.filter((inv) => inv.invoiceNumber !== invoiceNumber)
-        )
-      } catch (error) {
-        console.error(error)
-      }
-    }, [])
+      setInvoices((prev) =>
+        prev.filter((inv) => inv.invoiceNumber !== invoiceNumber)
+      )
+    } catch (error) {
+      console.error(error)
+    }
+  }, [])
 
-    return (
-      <InvoiceContext.Provider
-        value={{ invoices, isLoading, fetchInvoices, deleteInvoice }}
-      >
-        <Component {...props} />
-      </InvoiceContext.Provider>
-    )
-  }
+  return (
+    <InvoiceContext.Provider
+      value={{ invoices, isLoading, fetchInvoices, deleteInvoice }}
+    >
+      {children}
+    </InvoiceContext.Provider>
+  )
 }
