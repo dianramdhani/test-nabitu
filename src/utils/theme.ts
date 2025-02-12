@@ -118,11 +118,19 @@ const theme = createTheme({
     },
     MuiChip: {
       styleOverrides: {
-        root: ({ ownerState, theme }) =>
-          ownerState.color && {
-            backgroundColor: `${theme.palette[ownerState.color].main}30`,
-            color: theme.palette[ownerState.color].main,
-          },
+        root: ({ ownerState, theme }) => {
+          const color = ownerState.color as keyof typeof theme.palette
+          const paletteColor = theme.palette[color]
+
+          return paletteColor &&
+            typeof paletteColor === 'object' &&
+            'main' in paletteColor
+            ? {
+                backgroundColor: `${paletteColor.main}30`,
+                color: paletteColor.main,
+              }
+            : {}
+        },
       },
     },
   },

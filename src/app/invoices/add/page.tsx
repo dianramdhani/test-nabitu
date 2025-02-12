@@ -2,8 +2,7 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { invoiceSchema } from '@/lib/schemas/invoiceSchema'
-import { z } from 'zod'
+import { zInvoice, InvoiceType } from '@/lib/schemas/invoice'
 import { ReactNode, useState } from 'react'
 import {
   TextField,
@@ -28,21 +27,19 @@ const StyledInputLabel = styled(InputLabel)(({ theme }) => ({
   '.MuiFormLabel-asterisk': { color: theme.palette.error.main },
 }))
 
-type InvoiceFormData = z.infer<typeof invoiceSchema>
-
 export default function AddInvoicePage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<InvoiceFormData>({
-    resolver: zodResolver(invoiceSchema),
+  } = useForm<InvoiceType>({
+    resolver: zodResolver(zInvoice),
   })
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
-  const onSubmit = (data: InvoiceFormData) => {
+  const onSubmit = (data: InvoiceType) => {
     console.log('Invoice Data:', data)
     setOpenSnackbar(true)
   }
