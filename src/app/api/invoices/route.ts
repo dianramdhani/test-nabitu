@@ -60,16 +60,7 @@ export async function POST(req: Request) {
     )
   }
 
-  const validatedData = validationResult.data
-  const latestInvoice = await invoiceModel.findOne().sort({ invoiceNumber: -1 })
-  const nextNumber = latestInvoice
-    ? `INV${parseInt(latestInvoice.invoiceNumber.replace('INV', '')) + 1}`
-    : 'INV1001'
-  const newInvoice = new invoiceModel({
-    ...validatedData,
-    invoiceNumber: nextNumber,
-  })
-
+  const newInvoice = new invoiceModel(validationResult.data)
   await newInvoice.save()
 
   return NextResponse.json({ message: 'Invoice created!', invoice: newInvoice })

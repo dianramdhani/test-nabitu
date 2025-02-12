@@ -39,9 +39,15 @@ export default function AddInvoicePage() {
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
   const onSubmit = async (data: InvoiceType) => {
-    console.log('Invoice Data:', data)
-    await new Promise((resolve) => setTimeout(resolve, 5000))
-    setOpenSnackbar(true)
+    try {
+      await fetch('/api/invoices', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      setOpenSnackbar(true)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const onSnackbarClose = () => {

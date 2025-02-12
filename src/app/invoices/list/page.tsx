@@ -14,7 +14,6 @@ import {
   Chip,
   IconButton,
   LinearProgress,
-  Skeleton,
 } from '@mui/material'
 import Menu from '@/components/Icons/Menu'
 import { InvoiceType } from '@/lib/schemas/invoice'
@@ -24,6 +23,7 @@ import FieldSearch from './_components/FieldSearch'
 import FieldStatusFilter from './_components/FieldStatusFilter'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useEffect, useState } from 'react'
+import SkeletonRows from './_components/SkeletonRows'
 
 export type QueryType = {
   search: string
@@ -97,28 +97,7 @@ export default function InvoiceListPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {isLoading &&
-                !invoices.length &&
-                Array.from({ length: 5 }).map((_, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Skeleton variant='text' />
-                      <Skeleton variant='text' />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton variant='text' />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton variant='text' />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton variant='text' />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton variant='circular' width={24} height={24} />
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {isLoading && !invoices.length && <SkeletonRows />}
               {!isLoading && !invoices.length && (
                 <TableCell colSpan={5} height={300} align='center'>
                   No invoices
