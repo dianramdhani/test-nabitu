@@ -5,16 +5,16 @@ import { NextResponse } from 'next/server'
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { invoiceNumber: string } }
 ) {
   await connectToDatabase()
-  const invoice = await invoiceModel.findById(params.id)
+  const invoice = await invoiceModel.findOne(params)
   return NextResponse.json(invoice)
 }
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { invoiceNumber: string } }
 ) {
   await connectToDatabase()
   const rawData = await req.json()
@@ -33,8 +33,8 @@ export async function PATCH(
   }
 
   const validatedData = validationResult.data
-  const updatedInvoice = await invoiceModel.findByIdAndUpdate(
-    params.id,
+  const updatedInvoice = await invoiceModel.findOneAndUpdate(
+    params,
     validatedData,
     { new: true }
   )
@@ -51,9 +51,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { invoiceNumber: string } }
 ) {
   await connectToDatabase()
-  await invoiceModel.findByIdAndDelete(params.id)
+  await invoiceModel.findOneAndDelete(params)
   return NextResponse.json({ message: 'Invoice deleted!' })
 }

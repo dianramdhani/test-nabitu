@@ -12,61 +12,37 @@ import {
   CardContent,
   Card,
   Chip,
-  IconButton,
   LinearProgress,
 } from '@mui/material'
-import Menu from '@/components/Icons/Menu'
-import { InvoiceType } from '@/lib/schemas/invoice'
 import { format } from 'date-fns'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import FieldSearch from './_components/FieldSearch'
 import FieldStatusFilter from './_components/FieldStatusFilter'
 import { useDebounce } from '@uidotdev/usehooks'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import SkeletonRows from './_components/SkeletonRows'
+import InvoiceMenu from './_components/InvoiceMenu'
+import { useInvoices, withInvoiceProvider } from './_context/InvoiceContext'
 
 export type QueryType = {
   search: string
   status: string
 }
 
-export default function InvoiceListPage() {
+function InvoiceListPage() {
   const methods = useForm<QueryType>({
     defaultValues: {
       search: '',
       status: '',
     },
   })
-  const query = useWatch(methods)
+  const query = useWatch(methods) as QueryType
   const debouncedQuery = useDebounce(query, 300)
-  const [invoices, setInvoices] = useState<InvoiceType[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const { fetchInvoices, isLoading, invoices } = useInvoices()
 
   useEffect(() => {
-    async function fetchInvoices() {
-      setIsLoading(true)
-      const { search, status } = debouncedQuery
-      const params = new URLSearchParams()
-
-      if (search) params.append('search', search)
-      if (status) params.append('status', status)
-
-      const url = `/api/invoices${
-        params.toString() ? `?${params.toString()}` : ''
-      }`
-
-      try {
-        const res = await fetch(url)
-        if (!res.ok) throw new Error('Failed to fetch')
-        setInvoices(await res.json())
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchInvoices()
-  }, [debouncedQuery])
+    fetchInvoices(debouncedQuery)
+  }, [debouncedQuery, fetchInvoices])
 
   return (
     <>
@@ -132,9 +108,7 @@ export default function InvoiceListPage() {
                     })}
                   </TableCell>
                   <TableCell>
-                    <IconButton>
-                      <Menu />
-                    </IconButton>
+                    <InvoiceMenu invoiceNumber={invoice.invoiceNumber} />
                   </TableCell>
                 </TableRow>
               ))}
@@ -145,3 +119,5 @@ export default function InvoiceListPage() {
     </>
   )
 }
+
+export default withInvoiceProvider(InvoiceListPage)
