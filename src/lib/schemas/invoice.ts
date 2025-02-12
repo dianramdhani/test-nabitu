@@ -6,7 +6,7 @@ export const zInvoice = z.object({
   dueDate: z.date().refine((date) => !isNaN(date.getTime()), {
     message: 'Due date must be a valid date',
   }),
-  amount: z.number().min(1, 'Amount must be greater than 0'),
+  amount: z.number().positive('Amount must be greater than 0'),
   status: z.enum(['Paid', 'Unpaid', 'Pending']),
 })
 

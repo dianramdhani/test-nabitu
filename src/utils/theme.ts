@@ -133,6 +133,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          '.MuiFormLabel-asterisk': { color: theme.palette.error.main },
+        }),
+      },
+    },
   },
 })
 
