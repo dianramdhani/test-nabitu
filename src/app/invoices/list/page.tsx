@@ -13,57 +13,62 @@ import {
   Card,
   Chip,
   IconButton,
+  LinearProgress,
+  Skeleton,
 } from '@mui/material'
 import Menu from '@/components/Icons/Menu'
 import { InvoiceType } from '@/lib/schemas/invoice'
 import { format } from 'date-fns'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import FieldSearch from './_components/FieldSearch'
-import FieldFilter from './_components/FieldFilter'
+import FieldStatusFilter from './_components/FieldStatusFilter'
 import { useDebounce } from '@uidotdev/usehooks'
-import { useEffect } from 'react'
-
-const invoices: InvoiceType[] = [
-  {
-    name: 'Invoice 1',
-    invoiceNumber: 'INV-1001',
-    dueDate: new Date('2025-02-15'),
-    amount: 50000,
-    status: 'Paid',
-  },
-  {
-    name: 'Invoice 2',
-    invoiceNumber: 'INV-1002',
-    dueDate: new Date('2025-03-01'),
-    amount: 75000,
-    status: 'Pending',
-  },
-  {
-    name: 'Invoice 2',
-    invoiceNumber: 'INV-1003',
-    dueDate: new Date('2025-03-01'),
-    amount: 75000,
-    status: 'Unpaid',
-  },
-]
+import { useEffect, useState } from 'react'
 
 export type QueryType = {
   search: string
-  filter: string
+  status: string
 }
 
 export default function InvoiceListPage() {
   const methods = useForm<QueryType>({
     defaultValues: {
       search: '',
-      filter: '',
+      status: '',
     },
   })
   const query = useWatch(methods)
   const debouncedQuery = useDebounce(query, 300)
+  const [invoices, setInvoices] = useState<InvoiceType[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    console.log(debouncedQuery)
+    async function fetchInvoices() {
+      setIsLoading(true)
+      const { search, status } = debouncedQuery
+      const params = new URLSearchParams()
+
+      if (search) params.append('search', search)
+      if (status) params.append('status', status)
+
+      const url = `/api/invoices${
+        params.toString() ? `?${params.toString()}` : ''
+      }`
+
+      try {
+        const res = await fetch(url)
+        if (!res.ok) throw new Error('Failed to fetch')
+
+        const data = await res.json()
+        console.log(data)
+        setInvoices(data)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchInvoices()
   }, [debouncedQuery])
 
   return (
@@ -73,12 +78,13 @@ export default function InvoiceListPage() {
         <Box sx={{ display: 'flex', gap: 2 }}>
           <FormProvider {...methods}>
             <FieldSearch />
-            <FieldFilter />
+            <FieldStatusFilter />
           </FormProvider>
         </Box>
       </Box>
 
       <Card>
+        {isLoading && <LinearProgress />}
         <CardContent component={TableContainer}>
           <Table>
             <TableHead>
@@ -91,6 +97,33 @@ export default function InvoiceListPage() {
               </TableRow>
             </TableHead>
             <TableBody>
+              {isLoading &&
+                !invoices.length &&
+                Array.from({ length: 5 }).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Skeleton variant='text' />
+                      <Skeleton variant='text' />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton variant='text' />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton variant='text' />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton variant='text' />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton variant='circular' width={24} height={24} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              {!isLoading && !invoices.length && (
+                <TableCell colSpan={5} height={300} align='center'>
+                  No invoices
+                </TableCell>
+              )}
               {invoices.map((invoice) => (
                 <TableRow key={invoice.invoiceNumber}>
                   <TableCell>
