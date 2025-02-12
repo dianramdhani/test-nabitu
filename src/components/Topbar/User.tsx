@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import Image from 'next/image'
-import ChevronDownIcon from './ChevronDownIcon'
+import ChevronDown from '@/components/Icons/ChevronDown'
 
 export default function User() {
   return (
@@ -36,7 +36,7 @@ export default function User() {
         priority
         alt='user icon'
       />
-      <ChevronDownIcon />
+      <ChevronDown />
     </Box>
   )
 }

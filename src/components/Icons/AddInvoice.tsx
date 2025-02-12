@@ -1,6 +1,6 @@
 import { SvgIcon } from '@mui/material'
 
-export default function AddInvoiceIcon() {
+export default function AddInvoice() {
   return (
     <SvgIcon>
       <svg

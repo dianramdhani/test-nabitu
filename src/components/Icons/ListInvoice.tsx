@@ -1,6 +1,6 @@
 import { SvgIcon } from '@mui/material'
 
-export default function ListInvoicesIcon() {
+export default function ListInvoice() {
   return (
     <SvgIcon>
       <svg

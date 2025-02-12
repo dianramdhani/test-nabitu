@@ -21,6 +21,7 @@ import {
   styled,
   InputAdornment,
   Select,
+  Alert,
 } from '@mui/material'
 
 const StyledInputLabel = styled(InputLabel)(({ theme }) => ({
@@ -69,7 +70,6 @@ export default function AddInvoicePage() {
               placeholder='Enter your invoice name'
               error={!!errors.name}
               helperText={errors.name?.message}
-              size='small'
             />
           </Grid2>
           <Grid2
@@ -84,7 +84,6 @@ export default function AddInvoicePage() {
             <TextField
               {...register('invoiceNumber')}
               placeholder='Enter your invoice number'
-              size='small'
             />
           </Grid2>
           <Grid2
@@ -102,7 +101,6 @@ export default function AddInvoicePage() {
               placeholder='DD/MM/YYYY'
               error={!!errors.dueDate}
               helperText={errors.dueDate?.message}
-              size='small'
             />
           </Grid2>
           <Grid2
@@ -119,7 +117,6 @@ export default function AddInvoicePage() {
               placeholder='Enter your invoice amount'
               error={!!errors.amount}
               helperText={errors.amount?.message}
-              size='small'
               slotProps={{
                 input: {
                   startAdornment: (
@@ -161,7 +158,6 @@ export default function AddInvoicePage() {
                 )) as ReactNode
               }
               {...register('status')}
-              size='small'
             >
               <MenuItem value='Paid'>Paid</MenuItem>
               <MenuItem value='Unpaid'>Unpaid</MenuItem>
@@ -185,9 +181,11 @@ export default function AddInvoicePage() {
       <Snackbar
         open={true}
         autoHideDuration={3000}
-        message='Invoice added successfully'
         onClose={() => setOpenSnackbar(false)}
-      />
+        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+      >
+        <Alert severity='success'>Invoice added successfully</Alert>
+      </Snackbar>
     </>
   )
 }

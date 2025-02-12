@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { Box, Container, CssBaseline, ThemeProvider } from '@mui/material'
-import Sidebar from './_components/Sidebar'
-import Topbar from './_components/Topbar'
 import theme from '@/utils/theme'
+import Sidebar from '@/components/Sidebar'
+import Topbar from '@/components/Topbar'
 
 export const metadata: Metadata = {
   title: 'Test Nabitu',

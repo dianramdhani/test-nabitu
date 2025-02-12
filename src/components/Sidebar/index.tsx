@@ -1,8 +1,8 @@
 import { Box, Drawer, List, Typography } from '@mui/material'
 import Image from 'next/image'
-import AddInvoiceIcon from './AddInvoiceIcon'
-import ListInvoicesIcon from './ListInvoicesIcon'
 import NavItem from './NavItem'
+import AddInvoice from '../Icons/AddInvoice'
+import ListInvoice from '../Icons/ListInvoice'
 
 export default function Sidebar() {
   return (
@@ -46,12 +46,12 @@ export default function Sidebar() {
         <NavItem
           name='Add Invoice'
           path='/invoices/add'
-          icon={<AddInvoiceIcon />}
+          icon={<AddInvoice />}
         />
         <NavItem
           name='My Invoices'
           path='/invoices/list'
-          icon={<ListInvoicesIcon />}
+          icon={<ListInvoice />}
         />
       </List>
     </Drawer>

@@ -1,6 +1,6 @@
 import { SvgIcon } from '@mui/material'
 
-export default function ChevronDownIcon() {
+export default function ChevronDown() {
   return (
     <SvgIcon>
       <svg

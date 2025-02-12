@@ -1,6 +1,6 @@
 import { SvgIcon } from '@mui/material'
 
-export default function NotificationIcon() {
+export default function Notification() {
   return (
     <SvgIcon>
       <svg

@@ -1,6 +1,6 @@
 import { SvgIcon } from '@mui/material'
 
-export default function SunIcon() {
+export default function Sun() {
   return (
     <SvgIcon>
       <svg

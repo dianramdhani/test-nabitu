@@ -17,6 +17,10 @@ const theme = createTheme({
       fontWeight: 700,
       lineHeight: 1.2,
     },
+    subtitle1: {
+      fontSize: '0.875rem',
+      fontWeight: 600,
+    },
   },
   palette: {
     primary: {
@@ -32,9 +36,6 @@ const theme = createTheme({
     },
     success: {
       main: '#34D399',
-    },
-    error: {
-      main: '#f00',
     },
   },
   components: {
@@ -77,6 +78,51 @@ const theme = createTheme({
           color: theme.palette.common.black,
           opacity: 1,
         }),
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: ({ theme }) => ({ backgroundColor: theme.palette.common.white }),
+      },
+      defaultProps: { size: 'small' },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: ({ theme }) => ({ backgroundColor: theme.palette.common.white }),
+      },
+      defaultProps: { size: 'small' },
+    },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          '.MuiTableCell-root': { fontSize: '1rem' },
+        },
+      },
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.background.default,
+          '.MuiTableCell-root': { fontWeight: 600 },
+        }),
+      },
+    },
+    MuiTableBody: {
+      styleOverrides: {
+        root: {
+          '.MuiTableRow-root:last-child .MuiTableCell-root': {
+            border: 'unset',
+          },
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: ({ ownerState, theme }) =>
+          ownerState.color && {
+            backgroundColor: `${theme.palette[ownerState.color].main}30`,
+            color: theme.palette[ownerState.color].main,
+          },
       },
     },
   },

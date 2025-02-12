@@ -1,10 +1,10 @@
 'use client'
 
 import { AppBar, IconButton, styled, Toolbar } from '@mui/material'
-import NotificationIcon from './NotificationIcon'
-import ChatIcon from './ChatIcon'
 import SwitchDarkMode from './SwitchDarkMode'
 import User from './User'
+import Chat from '../Icons/Chat'
+import Notification from '../Icons/Notification'
 
 const StyledIconButton = styled(IconButton, {
   shouldForwardProp: (prop) => prop !== 'highlight',
@@ -41,10 +41,10 @@ export default function Topbar() {
       >
         <SwitchDarkMode />
         <StyledIconButton>
-          <NotificationIcon />
+          <Notification />
         </StyledIconButton>
         <StyledIconButton highlight>
-          <ChatIcon />
+          <Chat />
         </StyledIconButton>
         <User />
       </Toolbar>

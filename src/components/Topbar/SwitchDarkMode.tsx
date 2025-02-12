@@ -1,7 +1,7 @@
+import Moon from '@/components/Icons/Moon'
+import Sun from '@/components/Icons/Sun'
 import { styled, Switch, SwitchProps } from '@mui/material'
 import { useState } from 'react'
-import SunIcon from './SunIcon'
-import MoonIcon from './MoonIcon'
 
 const StyledSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
@@ -46,8 +46,8 @@ export default function SwitchDarkMode() {
     <StyledSwitch
       checked={darkMode}
       onChange={() => setDarkMode((prev) => !prev)}
-      icon={<SunIcon />}
-      checkedIcon={<MoonIcon />}
+      icon={<Sun />}
+      checkedIcon={<Moon />}
     />
   )
 }

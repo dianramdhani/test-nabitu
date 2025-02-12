@@ -1,6 +1,6 @@
 import { SvgIcon } from '@mui/material'
 
-export default function ChatIcon() {
+export default function Chat() {
   return (
     <SvgIcon>
       <svg
